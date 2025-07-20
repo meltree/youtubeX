@@ -59,7 +59,7 @@ def video_route():
         return send_video_partial(final_path)
 
     ydl_opts = {
-        'format': 'bestvideo[height<=360]+bestaudio/best[height<=360]',
+        'format': 'bestvideo[height<=320]+bestaudio/best[height<=320]',
         'progress_hooks': [progress_hook],
         'outtmpl': raw_path,
         'merge_output_format': 'mp4',
@@ -71,6 +71,8 @@ def video_route():
     print("\n🎞 Konvertiere für iPhone 2G ...")
     subprocess.run([
         "ffmpeg", "-i", raw_path,
+        "-vf", "scale=480:320",      # Auflösung setzen
+        "-r", "30",   
         "-c:v", "libx264", "-profile:v", "baseline", "-level", "3.0",
         "-c:a", "aac", "-b:a", "128k",
         "-movflags", "faststart",
