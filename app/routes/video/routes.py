@@ -3,6 +3,15 @@ from . import video
 import os
 import yt_dlp
 
+def progress_hook(d):
+    if d['status'] == 'downloading':
+        percent = d.get('_percent_str', '').strip()
+        speed = d.get('_speed_str', '').strip()
+        eta = d.get('_eta_str', '').strip()
+        print(f"\r⏬ {percent} @ {speed} | ETA: {eta}", end='', flush=True)
+    elif d['status'] == 'finished':
+        print("\n✅ Download abgeschlossen!")
+
 
 @video.route("/video", methods=["GET"])
 def video():
@@ -12,7 +21,8 @@ def video():
 
     if not os.path.exists(path):
         ydl_opts = {
-            'format': '360p',
+            'format': 'best[height<=360]',
+            'progress_hooks': [progress_hook],
             'outtmpl': path,
             'quiet': True,
         }
