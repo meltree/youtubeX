@@ -16,4 +16,4 @@ EXPOSE 1933
 
 ENV FLASK_APP=run.py
 
-CMD ["gunicorn", "--workers", "4", "--bind", "0.0.0.0:1933", "run:app"]
+CMD ["gunicorn", "--workers", "4", "--bind", "0.0.0.0:1933", "--timeout", "120", "run:app"]

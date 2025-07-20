@@ -17,7 +17,8 @@ def progress_hook(d):
 def video_route():
     video_id = request.args.get("id")
     url = f"https://www.youtube.com/watch?v={video_id}"
-    CACHE_DIR = "./cache"
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    CACHE_DIR = os.path.join(BASE_DIR, 'cache')
     os.makedirs(CACHE_DIR, exist_ok=True)
     raw_path = os.path.join(CACHE_DIR, f"{video_id}_raw.mp4")
     final_path = os.path.join(CACHE_DIR, f"{video_id}_ios.mp4")
